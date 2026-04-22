@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI/ML Training Plan Comparison</title>
+<style>
+  * { box-sizing: border-box; }
+
+  :root{
+    --bg: #f3f5f4;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --line: #dfe5df;
+    --line-soft: #e9eeea;
+    --shadow: 0 8px 18px rgba(0,0,0,.08);
+
+    --header-green: #2f5d50;
+    --sub-grey: #d7d7d7;
+
+    --blue: #1565c0;
+    --green: #1b8c20;
+    --navy: #173f7c;
+    --grey: #6b7280;
+
+    --blue-soft: #dce9f8;
+    --green-soft: #e2f0dc;
+    --grey-soft: #eceff3;
+
+    --radius: 16px;
+  }
+
+  body {
+    margin: 0;
+    padding: 12px;
+    background: linear-gradient(180deg, #f5f7f6 0%, #eef2ef 100%);
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    font-size: 0.85em;
+  }
+
+  .page {
+    max-width: 1540px;
+    margin: 0 auto;
+  }
+
+  .top-anchor {
+    scroll-margin-top: 20px;
+  }
+
+  .hero {
+    background: #f8faf8;
+    border: 1px solid #e5ebe5;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 14px;     /* 👈 added */
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+
+  .top-title {
+    background: var(--header-green);
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    padding: 8px 10px;
+  }
+
+  .sub-title {
+  position: relative;
+  background: #eef6f1;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 6px 12px 16px 12px; /* extra bottom room for dots + line */
+  color: #2e5f4f;
+  letter-spacing: 0.3px;
+  border-radius: 6px;
+  margin: 8px 12px;
+  border: 1px solid #d9e6dd;
+  overflow: hidden;
+}
+
+/* slow shiny sweep */
+.sub-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255,255,255,0.00) 20%,
+    rgba(255,255,255,0.55) 48%,
+    rgba(255,255,255,0.85) 50%,
+    rgba(255,255,255,0.55) 52%,
+    rgba(255,255,255,0.00) 80%,
+    transparent 100%
+  );
+  transform: skewX(-22deg);
+  animation: subtitleShine 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* dots + connecting line */
+.sub-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 4px;
+  background:
+    radial-gradient(circle, #2f76ca 0 1.6px, transparent 2px) left center / 22px 8px repeat-x;
+  animation: dotsToLine 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  box-shadow: 0 0 10px rgba(0, 120, 255, 0.3);
+}
+
+.card {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subtitleShine {
+  0%   { left: -60%; opacity: 0; }
+  8%   { opacity: 1; }
+  45%  { left: 130%; opacity: 1; }
+  55%  { left: 130%; opacity: 0; }
+  100% { left: 130%; opacity: 0; }
+}
+
+@keyframes dotsToLine {
+  0% {
+    opacity: 0;
+    width: 0;
+    background:
+      radial-gradient(circle, #2f76ca 0 1.6px, transparent 2px) left center / 22px 8px repeat-x;
+  }
+
+  12% {
+    opacity: 1;
+    width: 70px;
+    background:
+      radial-gradient(circle, #2f76ca 0 1.6px, transparent 2px) left center / 22px 8px repeat-x;
+  }
+
+  28% {
+    opacity: 1;
+    width: 220px;
+    background:
+      radial-gradient(circle, #2f76ca 0 1.6px, transparent 2px) left center / 22px 8px repeat-x;
+  }
+
+  45% {
+    opacity: 1;
+    width: 220px;
+    background:
+      linear-gradient(90deg, #2f76ca, #1b8c20);
+  }
+
+  70% {
+    opacity: 1;
+    width: 220px;
+    background:
+      linear-gradient(90deg, #2f76ca, #1b8c20);
+  }
+
+  100% {
+    opacity: 0;
+    width: 220px;
+    background:
+      linear-gradient(90deg, #2f76ca, #1b8c20);
+  }
+}
+
+  .top-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 24px;   /* 👈 added space above cards */
+  }
+
+  .main-card,
+  .criteria-card,
+  .decision-card,
+  .detail-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid #e3e8e3;
+  }
+
+  .main-card {
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-head,
+  .criteria-head,
+  .decision-head,
+  .detail-head {
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    letter-spacing: .1px;
+  }
+
+  .blue-head { background: linear-gradient(90deg, #1565c0, #20a52b); }
+  .green-head { background: linear-gradient(90deg, #1b8c20, #2ca331); }
+  .navy-head { background: linear-gradient(90deg, #173f7c, #234f95); }
+  .grey-head { background: linear-gradient(90deg, #5f6774, #737b88); }
+
+  .mini-table,
+  .criteria-table,
+  .decision-table,
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .mini-table {
+    table-layout: fixed;
+  }
+
+  .mini-table th,
+  .mini-table td,
+  .criteria-table td,
+  .decision-table td,
+  .detail-table th,
+  .detail-table td {
+    border: 1px solid var(--line);
+    padding: 6px 6px;
+    font-size: 13px;
+    text-align: center;
+    color: #223245;
+  }
+
+  .mini-table th,
+  .detail-table th {
+    background: #fbfcfb;
+    font-size: 13px;
+    font-weight: 800;
+    color: #183355;
+  }
+
+  .mini-table td {
+    border-color: var(--line-soft);
+  }
+
+  .mini-table th:nth-child(1),
+  .mini-table td.phase {
+    width: 33%;
+  }
+
+  .mini-table th:nth-child(2),
+  .mini-table td.days {
+    width: 4.5%;
+  }
+
+  .mini-table th:nth-child(3),
+  .mini-table td.focus {
+    width: auto;
+  }
+
+  .mini-table td.phase {
+    text-align: left;
+    font-weight: 700;
+    background: #fcfcfc;
+    white-space: nowrap;
+  }
+
+  .mini-table td.days {
+    font-weight: 800;
+    white-space: nowrap;
+    color: #183355;
+    font-size: 11px;
+  }
+
+  .mini-table td.focus {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .outcome-row td {
+    font-weight: 800;
+    font-size: 13px;
+    border-top: 2px solid #cfd7cf;
+    white-space: nowrap;
+    padding: 8px 6px;
+  }
+
+  .outcome-blue td {
+    background: var(--blue-soft);
+    color: #173f7c;
+  }
+
+  .outcome-green td {
+    background: var(--green-soft);
+    color: #1d6d23;
+  }
+
+  .outcome-grey td {
+    background: var(--grey-soft);
+    color: #2f3b4a;
+  }
+
+  .card-actions {
+    padding: 10px 10px 12px;
+    display: flex;
+    justify-content: center;
+    background: #fcfdfc;
+  }
+
+  .action-btn,
+  .back-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .18s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,.10);
+  }
+
+  .btn-blue { background: #184f9c; color: #fff; }
+  .btn-green { background: #1f7f28; color: #fff; }
+  .btn-navy { background: #1b3767; color: #fff; }
+
+  .action-btn:hover,
+  .back-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.02);
+  }
+
+  .decision-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #23466e;
+    margin: 26px 0 10px;
+  }
+
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 210px 1fr 1fr 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .criteria-card,
+  .decision-card {
+    min-height: 210px;
+  }
+
+  .criteria-table td {
+    height: 36px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    background: #fafbfa;
+    border-color: var(--line-soft);
+  }
+
+  .criteria-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .criteria-icon {
+    width: 16px;
+    text-align: center;
+    flex: 0 0 16px;
+  }
+
+  .decision-table td {
+    height: 36px;
+    font-size: 12px;
+    color: #344054;
+    white-space: nowrap;
+    text-align: center;
+    border-color: var(--line-soft);
+  }
+
+  .details-wrapper {
+    margin-top: 20px;
+  }
+
+  .detail-section {
+    display: none;
+    margin-top: 14px;
+    scroll-margin-top: 20px;
+  }
+
+  .detail-section.active {
+    display: block;
+    animation: fadeIn .25s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-card {
+    width: 100%;
+  }
+
+  .detail-head {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .detail-sub {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--muted);
+    background: #f8faf8;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .detail-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 12px;
+    gap: 10px;
+    background: #fbfcfb;
+    border-top: 1px solid var(--line);
+  }
+
+  .top-actions {
+    border-top: none;
+    border-bottom: 1px solid var(--line);
+    background: #fbfcfb;
+  }
+
+  .back-btn {
+    background: #374151;
+    color: #fff;
+  }
+
+  .detail-scroll {
+    overflow-x: visible;
+  }
+
+  .detail-table {
+    width: 100%;
+    table-layout: auto;
+  }
+
+  .detail-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .detail-table th,
+  .detail-table td {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    vertical-align: top;
+    line-height: 1.35;
+    text-align: left;
+    font-size: 12px;
+  }
+
+  .detail-table th:nth-child(1),
+  .detail-table td:nth-child(1) {
+    width: 90px;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  @keyframes shine {
+    0% {
+       left: -50%;
+    }
+    100% {
+      left: 120%;
+    }
+  }
+
+  @media (max-width: 1360px) {
+    .top-row,
+    .bottom-row {
+      grid-template-columns: 1fr;
+    }
+
+    .mini-table td.focus,
+    .decision-table td,
+    .criteria-table td {
+      white-space: normal;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div id="topSummary" class="top-anchor"></div>
+
+    <div class="hero">
+      <div class="top-title">AI/ML Training Plan Comparison</div>
+      <div class="sub-title">Select the right track based on team maturity and business goals</div>
+    </div>
+
+    <div class="top-row">
+      <div class="main-card">
+        <div class="main-head blue-head">🧑‍💻 Option 1 – Developer Track (15 Days)</div>
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Days</th>
+              <th>Focus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="phase">🔹 Foundation</td><td class="days">4</td><td class="focus">Strong base</td></tr>
+            <tr><td class="phase">📊 ML Core</td><td class="days">5</td><td class="focus">Regression + Classification</td></tr>
+            <tr><td class="phase">🧠 Deep Learning</td><td class="days">3</td><td class="focus">ANN + intuition</td></tr>
+            <tr><td class="phase">🤖 AI + Agentic</td><td class="days">3</td><td class="focus">Practical systems</td></tr>
+            <tr class="outcome-row outcome-blue"><td colspan="3">Build ML + AI apps</td></tr>
+          </tbody>
+        </table>
+        <div class="card-actions">
+          <button class="action-btn btn-blue" onclick="toggleDetails('developerDetails')">+ View 15-Day Plan</button>
+        </div>
+      </div>
+
+      <div class="main-card">
+        <div class="main-head green-head">🧑‍🎓 Option 2 – Beginner Track (20 Days)</div>
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Days</th>
+              <th>Focus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="phase">🔹 Foundation</td><td class="days">5</td><td class="focus">Strong base</td></tr>
+            <tr><td class="phase">📊 ML Core</td><td class="days">6</td><td class="focus">Regression + Classification</td></tr>
+            <tr><td class="phase">🧠 Deep Learning</td><td class="days">4</td><td class="focus">ANN + intuition</td></tr>
+            <tr><td class="phase">🤖 AI + Agentic</td><td class="days">5</td><td class="focus">Practical systems</td></tr>
+            <tr class="outcome-row outcome-green"><td colspan="3">Understand + apply ML</td></tr>
+          </tbody>
+        </table>
+        <div class="card-actions">
+          <button class="action-btn btn-green" onclick="toggleDetails('beginnerDetails')">+ View 20-Day Plan</button>
+        </div>
+      </div>
+
+      <div class="main-card">
+        <div class="main-head navy-head">🚀 Option 3 – Advanced ML Track (7 Days)</div>
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Days</th>
+              <th>Focus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="phase">🔹 Foundation</td><td class="days">Not Covered</td><td class="focus">ML-focused track</td></tr>
+            <tr><td class="phase">📊 ML Core</td><td class="days">5</td><td class="focus">Regression + Classification</td></tr>
+            <tr><td class="phase">🧠 Deep Learning</td><td class="days">2</td><td class="focus">ANN + intuition</td></tr>
+            <tr><td class="phase">🤖 AI + Agentic</td><td class="days">Not Covered</td><td class="focus">ML-focused track</td></tr>
+            <tr class="outcome-row outcome-blue"><td colspan="3">Build production ML systems</td></tr>
+          </tbody>
+        </table>
+        <div class="card-actions">
+          <button class="action-btn btn-navy" onclick="toggleDetails('advancedDetails')">+ View 7-Day Plan</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="decision-title">Decision Guide</div>
+
+    <div class="bottom-row">
+      <div class="criteria-card">
+        <div class="criteria-head grey-head">Criteria</div>
+        <table class="criteria-table">
+          <tbody>
+            <tr><td><div class="criteria-label"><span class="criteria-icon">👥</span><span>Ideal For</span></div></td></tr>
+            <tr><td><div class="criteria-label"><span class="criteria-icon">🏎️</span><span>Pace</span></div></td></tr>
+            <tr><td><div class="criteria-label"><span class="criteria-icon">🧮</span><span>Math Depth</span></div></td></tr>
+            <tr><td><div class="criteria-label"><span class="criteria-icon">🛠️</span><span>Hands-on Level</span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-head blue-head">Dev Experienced</div>
+        <table class="decision-table">
+          <tbody>
+            <tr><td>.NET / Java / Technical professionals</td></tr>
+            <tr><td>Fast</td></tr>
+            <tr><td>Medium</td></tr>
+            <tr><td>High</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-head green-head">Beginner Friendly</div>
+        <table class="decision-table">
+          <tbody>
+            <tr><td>Freshers / Mixed audience</td></tr>
+            <tr><td>Moderate</td></tr>
+            <tr><td>Higher</td></tr>
+            <tr><td>High</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-head navy-head">⭐ Advanced Professionals</div>
+        <table class="decision-table">
+          <tbody>
+            <tr><td>Python Experienced</td></tr>
+            <tr><td>Fast</td></tr>
+            <tr><td>Higher</td></tr>
+            <tr><td>High</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="details-wrapper">
+      <section id="developerDetails" class="detail-section">
+        <div class="detail-card">
+          <div class="detail-head blue-head">🧑‍💻 Developer Track – 15 Day Detailed Plan</div>
+          <div class="detail-sub">Best for experienced developer teams who want structured AI/ML capability with strong implementation orientation.</div>
+          <div class="detail-actions top-actions">
+            <button class="back-btn" onclick="closeDetails()">− Back to Summary</button>
+          </div>
+          <div class="detail-scroll">
+            <table class="detail-table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Topic</th>
+                  <th>Focus</th>
+                  <th>Practice / Workshop</th>
+                  <th>Outcome</th>
+                  <th>Business Use-Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Day 1</td><td>Python Basics + NumPy</td><td>Foundation + coding basics</td><td>Write basic scripts, loops, functions</td><td>Able to code basic AI scripts</td><td>Data preparation for retail sales / banking reports</td></tr>
+                <tr><td>Day 2</td><td>Pandas + Data Analysis</td><td>Data handling & analysis</td><td>Load & analyze dataset</td><td>Can analyze datasets</td><td>Retail sales analysis / BFSI transaction insights</td></tr>
+                <tr><td>Day 3</td><td>Linear Algebra</td><td>Math foundation</td><td>Hands-on exercises on Linear Algebra</td><td>Able to apply Linear Algebra in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 4</td><td>Probability + Stats</td><td>Statistical thinking</td><td>Hands-on exercises on Probability + Stats</td><td>Able to apply Probability + Stats in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 5</td><td>ML Intro + Workflow</td><td>ML lifecycle understanding</td><td>Hands-on exercises on ML Intro + Workflow</td><td>Able to apply ML Intro + Workflow in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 6</td><td>Linear Regression</td><td>Prediction modeling</td><td>Build regression model using sklearn</td><td>Can predict continuous values</td><td>Sales forecasting / loan amount prediction</td></tr>
+                <tr><td>Day 7</td><td>Logistic Regression</td><td>Classification modeling</td><td>Binary classification model</td><td>Can build classification model</td><td>Customer churn / fraud detection classification</td></tr>
+                <tr><td>Day 8</td><td>Decision Trees</td><td>Tree-based learning</td><td>Build decision tree model</td><td>Understands tree logic</td><td>Loan approval / customer segmentation</td></tr>
+                <tr><td>Day 9</td><td>Evaluation Metrics</td><td>Model validation</td><td>Confusion matrix, accuracy</td><td>Can evaluate model performance</td><td>Model validation for business KPIs</td></tr>
+                <tr><td>Day 10</td><td>Neural Networks</td><td>DL intuition</td><td>Build simple neural network</td><td>Understands ANN basics</td><td>Customer behavior prediction</td></tr>
+                <tr><td>Day 11</td><td>TensorFlow / PyTorch</td><td>DL hands-on</td><td>Train DL model</td><td>Can train DL models</td><td>Demand forecasting / risk modeling</td></tr>
+                <tr><td>Day 12</td><td>NLP + Embeddings</td><td>Text processing</td><td>Text preprocessing & embeddings</td><td>Can process text data</td><td>Customer support chatbot / document parsing</td></tr>
+                <tr><td>Day 13</td><td>LLMs + Prompting</td><td>Generative AI</td><td>Prompt design exercises</td><td>Can design prompts</td><td>Automated email / support assistant</td></tr>
+                <tr><td>Day 14</td><td>RAG + Vector DB</td><td>Retrieval systems</td><td>Build document chatbot</td><td>Can build retrieval system</td><td>Knowledge base chatbot (support / banking docs)</td></tr>
+                <tr><td>Day 15</td><td>Agentic AI + Capstone</td><td>Autonomous AI systems</td><td>Create simple AI agent workflow</td><td>Can design AI workflows</td><td>Automated workflow (ticketing / operations)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="detail-actions">
+            <button class="back-btn" onclick="closeDetails()">− Back to Summary</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="beginnerDetails" class="detail-section">
+        <div class="detail-card">
+          <div class="detail-head green-head">🧑‍🎓 Beginner Track – 20 Day Detailed Plan</div>
+          <div class="detail-sub">Best for fresher or mixed audience batches who need slower progression, stronger foundations, and more reinforcement time.</div>
+          <div class="detail-actions top-actions">
+            <button class="back-btn" onclick="closeDetails()">− Back to Summary</button>
+          </div>
+          <div class="detail-scroll">
+            <table class="detail-table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Topic</th>
+                  <th>Focus</th>
+                  <th>Practice / Workshop</th>
+                  <th>Outcome</th>
+                  <th>Business Use-Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Day 1</td><td>Python Basics</td><td>Foundation + coding basics</td><td>Write basic scripts, loops, functions</td><td>Able to code basic AI scripts</td><td>Data preparation for retail sales / banking reports</td></tr>
+                <tr><td>Day 2</td><td>NumPy</td><td>Numerical computing</td><td>Array operations, vector math</td><td>Understands numerical computation</td><td>Numerical modeling for pricing / risk calculations</td></tr>
+                <tr><td>Day 3</td><td>Pandas</td><td>Data handling & analysis</td><td>Load & analyze dataset</td><td>Can analyze datasets</td><td>Retail sales analysis / BFSI transaction insights</td></tr>
+                <tr><td>Day 4</td><td>Visualization</td><td>Concept understanding</td><td>Hands-on exercises on Visualization</td><td>Able to apply Visualization in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 5</td><td>Linear Algebra</td><td>Math foundation</td><td>Hands-on exercises on Linear Algebra</td><td>Able to apply Linear Algebra in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 6</td><td>Probability</td><td>Statistical thinking</td><td>Hands-on exercises on Probability</td><td>Able to apply Probability in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 7</td><td>ML Intro</td><td>ML lifecycle understanding</td><td>Hands-on exercises on ML Intro</td><td>Able to apply ML Intro in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 8</td><td>Linear Regression</td><td>Prediction modeling</td><td>Build regression model using sklearn</td><td>Can predict continuous values</td><td>Sales forecasting / loan amount prediction</td></tr>
+                <tr><td>Day 9</td><td>Logistic Regression</td><td>Classification modeling</td><td>Binary classification model</td><td>Can build classification model</td><td>Customer churn / fraud detection</td></tr>
+                <tr><td>Day 10</td><td>Decision Trees</td><td>Tree-based learning</td><td>Build decision tree model</td><td>Understands tree logic</td><td>Loan approval / customer segmentation</td></tr>
+                <tr><td>Day 11</td><td>Feature Engineering</td><td>Concept understanding</td><td>Hands-on exercises on Feature Engineering</td><td>Able to apply Feature Engineering in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 12</td><td>Evaluation</td><td>Model validation</td><td>Confusion matrix, accuracy</td><td>Can evaluate model performance</td><td>Model validation for business KPIs</td></tr>
+                <tr><td>Day 13</td><td>Neural Networks</td><td>DL intuition</td><td>Build simple neural network</td><td>Understands ANN basics</td><td>Customer behavior prediction</td></tr>
+                <tr><td>Day 14</td><td>Deep Learning</td><td>Concept understanding</td><td>Hands-on exercises on Deep Learning</td><td>Able to apply Deep Learning in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 15</td><td>TensorFlow</td><td>DL hands-on</td><td>Train DL model</td><td>Can train DL models</td><td>Demand forecasting / risk modeling</td></tr>
+                <tr><td>Day 16</td><td>PyTorch</td><td>DL hands-on</td><td>Train DL model</td><td>Can train DL models</td><td>Advanced prediction systems</td></tr>
+                <tr><td>Day 17</td><td>NLP</td><td>Text processing</td><td>Text preprocessing & embeddings</td><td>Can process text data</td><td>Customer support chatbot / document parsing</td></tr>
+                <tr><td>Day 18</td><td>LLMs</td><td>Generative AI</td><td>Prompt design exercises</td><td>Can design prompts</td><td>Automated email / support assistant</td></tr>
+                <tr><td>Day 19</td><td>RAG</td><td>Retrieval systems</td><td>Build document chatbot</td><td>Can build retrieval system</td><td>Knowledge base chatbot (support / banking docs)</td></tr>
+                <tr><td>Day 20</td><td>Agentic AI + Project</td><td>Autonomous AI systems</td><td>Create simple AI agent workflow</td><td>Can design AI workflows</td><td>Automated workflow (ticketing / operations)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="detail-actions">
+            <button class="back-btn" onclick="closeDetails()">− Back to Summary</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="advancedDetails" class="detail-section">
+        <div class="detail-card">
+          <div class="detail-head navy-head">🚀 Advanced ML Track – 7 Day Detailed Plan</div>
+          <div class="detail-sub">Best for already technical or ML-aware audiences who want a focused, high-speed machine learning track without foundation-heavy coverage.</div>
+          <div class="detail-actions top-actions">
+            <button class="back-btn" onclick="closeDetails()">− Back to Summary</button>
+          </div>
+          <div class="detail-scroll">
+            <table class="detail-table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Topic</th>
+                  <th>Focus</th>
+                  <th>Practice / Workshop</th>
+                  <th>Outcome</th>
+                  <th>Business Use-Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Day 1</td><td>ML Overview + Data Handling</td><td>ML fundamentals</td><td>Hands-on exercises on ML Overview + Data Handling</td><td>Able to apply ML Overview + Data Handling in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 2</td><td>Linear Regression (Theory + Lab)</td><td>Regression modeling</td><td>Build regression model using sklearn</td><td>Can predict continuous values</td><td>Sales forecasting / loan amount prediction</td></tr>
+                <tr><td>Day 3</td><td>Logistic Regression (Classification)</td><td>Classification modeling</td><td>Binary classification model</td><td>Can build classification model</td><td>Customer churn / fraud detection classification</td></tr>
+                <tr><td>Day 4</td><td>Decision Trees + Feature Importance</td><td>Tree-based learning</td><td>Build decision tree model</td><td>Understands tree logic</td><td>Loan approval / customer segmentation</td></tr>
+                <tr><td>Day 5</td><td>Model Evaluation (Accuracy, Precision, Recall, F1)</td><td>Model validation</td><td>Confusion matrix, accuracy</td><td>Can evaluate model performance</td><td>Model validation for business KPIs</td></tr>
+                <tr><td>Day 6</td><td>Feature Engineering + Data Preprocessing</td><td>Data preparation</td><td>Hands-on exercises on Feature Engineering + Data Preprocessing</td><td>Able to apply Feature Engineering + Data Preprocessing in real scenarios</td><td>General AI application in Retail / BFSI / Support domain</td></tr>
+                <tr><td>Day 7</td><td>Mini Project + End-to-End ML Pipeline</td><td>End-to-end pipeline</td><td>End-to-end ML project</td><td>Can build end-to-end solution</td><td>End-to-end AI solution for enterprise</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="detail-actions">
+            <button class="back-btn" onclick="closeDetails()">− Back to Summary</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+<script>
+  function toggleDetails(sectionId) {
+    const sections = document.querySelectorAll('.detail-section');
+    const target = document.getElementById(sectionId);
+    const alreadyOpen = target.classList.contains('active');
+
+    sections.forEach(section => section.classList.remove('active'));
+
+    if (!alreadyOpen) {
+      target.classList.add('active');
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    } else {
+      document.getElementById('topSummary').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function closeDetails() {
+    document.querySelectorAll('.detail-section').forEach(section => {
+      section.classList.remove('active');
+    });
+    document.getElementById('topSummary').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+</body>
+</html>
