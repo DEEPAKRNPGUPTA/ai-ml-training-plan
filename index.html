@@ -543,10 +543,22 @@ button:hover {
 
   .detail-table th:nth-child(1),
   .detail-table td:nth-child(1) {
-    width: 90px;
-    white-space: nowrap;
+    width: 60px;              /* 👈 smaller */
+    white-space: normal;      /* 👈 allow wrap */
+    word-break: break-word;
     text-align: center;
-  }
+    font-size: 11px;          /* 👈 slightly smaller */
+  line-height: 1.2;
+}
+
+.detail-table td:nth-child(2) {
+  font-weight: 600;
+}
+
+.detail-table th:nth-child(3),
+.detail-table td:nth-child(3) {
+  width: 160px;   /* 👈 increase */
+}
 
   @keyframes shine {
     0% {
@@ -633,6 +645,128 @@ body {
     }
   }
 
+  @media (max-width: 768px) {
+
+.detail-table th:nth-child(1),
+.detail-table td:nth-child(1) {
+  width: 60px;              /* 👈 enough for 2 lines */
+  font-size: 10px;
+  text-align: center;
+
+  white-space: normal;      /* allow wrap */
+  word-break: keep-all;     /* ❗ prevents letter breaking */
+  overflow-wrap: normal;    /* ❗ prevents weird stacking */
+
+  line-height: 1.1;
+}
+
+}
+
+  @media (max-width: 768px) {
+
+/* Table text */
+.detail-table th,
+.detail-table td {
+  font-size: 10.5px;
+  padding: 6px 5px;
+  line-height: 1.2;
+}
+
+/* Slightly smaller headers */
+.detail-table th {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Day column extra compact */
+.detail-table th:nth-child(1),
+.detail-table td:nth-child(1) {
+  font-size: 9.5px;
+  width: 55px;
+}
+
+/* Reduce card padding */
+.detail-card {
+  padding: 8px;
+}
+
+/* Back button smaller */
+.back-btn {
+  font-size: 10px;
+  padding: 6px 10px;
+}
+
+/* Title slightly smaller */
+.detail-title {
+  font-size: 14px;
+}
+}
+
+
+@media (max-width: 768px) {
+
+/* General table text */
+.detail-table th,
+.detail-table td {
+  font-size: 10.5px;
+  padding: 6px 5px;
+  line-height: 1.2;
+}
+
+/* Day column (small) */
+.detail-table th:nth-child(1),
+.detail-table td:nth-child(1) {
+  width: 50px;
+  font-size: 9.5px;
+}
+
+/* 🔥 Topic column (give more space) */
+.detail-table th:nth-child(2),
+.detail-table td:nth-child(2) {
+  width: 150px;
+}
+
+/* 🔧 Focus column (allow slight squeeze) */
+.detail-table th:nth-child(3),
+.detail-table td:nth-child(3) {
+  width: 100px;
+}
+
+/* Practice column */
+.detail-table th:nth-child(4),
+.detail-table td:nth-child(4) {
+  width: 150px;
+}
+
+/* Outcome */
+.detail-table th:nth-child(5),
+.detail-table td:nth-child(5) {
+  width: 130px;
+}
+
+/* Business use-case */
+.detail-table th:nth-child(6),
+.detail-table td:nth-child(6) {
+  width: 150px;
+}
+
+/* Prevent ugly vertical breaking */
+.detail-table td {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+
+.detail-table td {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+}
+
+
+}
 </style>
 </head>
 
