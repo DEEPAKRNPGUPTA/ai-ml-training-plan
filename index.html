@@ -33,6 +33,9 @@
 
   body {
     margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
     padding: 12px;
     background: linear-gradient(180deg, #f5f7f6 0%, #eef2ef 100%);
     font-family: "Segoe UI", Arial, sans-serif;
@@ -41,8 +44,18 @@
   }
 
   .page {
+    flex: 1;
     max-width: 1540px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .top-anchor {
@@ -54,7 +67,7 @@
     border: 1px solid #e5ebe5;
     border-radius: 16px;
     overflow: hidden;
-    margin-top: 6px;     /* 👈 added */
+    margin-top: 6px;
     margin-bottom: 6px;
     box-shadow: var(--shadow);
   }
@@ -70,145 +83,106 @@
   }
 
   .sub-title {
-  position: relative;
-  background: #eef6f1;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 7px 12px 12px 12px;
-  color: #2e5f4f;
-  letter-spacing: 0.3px;
-  border-radius: 6px;
-  margin: 6px 12px;
-  border: 1px solid #d9e6dd;
-  overflow: hidden;
-}
-
-/* slow shiny sweep */
-.sub-title::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -55%;
-  width: 34%;
-  height: 100%;
-  background: linear-gradient(
-    110deg,
-    transparent 0%,
-    rgba(255,255,255,0.00) 25%,
-    rgba(255,255,255,0.28) 45%,
-    rgba(255,255,255,0.65) 50%,
-    rgba(255,255,255,0.28) 55%,
-    rgba(255,255,255,0.00) 75%,
-    transparent 100%
-  );
-  transform: skewX(-20deg);
-  animation: subtitleShine 8.5s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* dots + connecting line */
-.sub-title::after {
-  content: "";
-  position: absolute;
-  left: calc(50% - 75px);   /* 👈 HERE */
-  bottom: 4px;
-  width: 150px;
-  height: 2px;
-
-  background:
-    radial-gradient(circle, #2f76ca 0 1.1px, transparent 1.5px)
-    left center / 15px 5px repeat-x;
-
-  animation:
-    dotsToLine 9s ease-in-out infinite,
-    floatLine 9s ease-in-out infinite;
-
-  pointer-events: none;
-}
-
-.main-card:hover,
-.criteria-card:hover,
-.decision-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0,0,0,.10);
-  transition: all 0.25s ease;
-}
-
-button:hover {
-  box-shadow: 0 0 10px rgba(0, 120, 255, 0.3);
-}
-
-.card {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeUp 0.6s ease forwards;
-}
-
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.3s; }
-
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    position: relative;
+    background: #eef6f1;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 12px 12px 12px;
+    color: #2e5f4f;
+    letter-spacing: 0.3px;
+    border-radius: 6px;
+    margin: 6px 12px;
+    border: 1px solid #d9e6dd;
+    overflow: hidden;
   }
-}
 
-@keyframes subtitleShine {
-  0%   { left: -55%; opacity: 0; }
-  10%  { opacity: 1; }
-  42%  { left: 120%; opacity: 1; }
-  52%  { left: 120%; opacity: 0; }
-  100% { left: 120%; opacity: 0; }
-}
+  .sub-title::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -55%;
+    width: 34%;
+    height: 100%;
+    background: linear-gradient(
+      110deg,
+      transparent 0%,
+      rgba(255,255,255,0.00) 25%,
+      rgba(255,255,255,0.28) 45%,
+      rgba(255,255,255,0.65) 50%,
+      rgba(255,255,255,0.28) 55%,
+      rgba(255,255,255,0.00) 75%,
+      transparent 100%
+    );
+    transform: skewX(-20deg);
+    animation: subtitleShine 8.5s ease-in-out infinite;
+    pointer-events: none;
+  }
 
-@keyframes dotsToLine {
-  0% {
-    opacity: 0;
-    width: 0;
+  .sub-title::after {
+    content: "";
+    position: absolute;
+    left: calc(50% - 75px);
+    bottom: 4px;
+    width: 150px;
+    height: 2px;
     background:
       radial-gradient(circle, #2f76ca 0 1.1px, transparent 1.5px)
       left center / 15px 5px repeat-x;
+    animation:
+      dotsToLine 9s ease-in-out infinite,
+      floatLine 9s ease-in-out infinite;
+    pointer-events: none;
   }
 
-  15% {
-    opacity: 1;
-    width: 30px;
+  @keyframes subtitleShine {
+    0%   { left: -55%; opacity: 0; }
+    10%  { opacity: 1; }
+    42%  { left: 120%; opacity: 1; }
+    52%  { left: 120%; opacity: 0; }
+    100% { left: 120%; opacity: 0; }
   }
 
-  30% {
-    width: 120px;
+  @keyframes dotsToLine {
+    0% {
+      opacity: 0;
+      width: 0;
+      background:
+        radial-gradient(circle, #2f76ca 0 1.1px, transparent 1.5px)
+        left center / 15px 5px repeat-x;
+    }
+    15% {
+      opacity: 1;
+      width: 30px;
+    }
+    30% {
+      width: 120px;
+    }
+    45% {
+      width: 150px;
+      background:
+        linear-gradient(90deg, #2f76ca, #1b8c20);
+    }
+    70% {
+      width: 150px;
+    }
+    100% {
+      opacity: 0;
+      width: 150px;
+    }
   }
 
-  45% {
-    width: 150px;
-    background:
-      linear-gradient(90deg, #2f76ca, #1b8c20);
+  @keyframes floatLine {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-1.5px); }
+    100% { transform: translateY(0px); }
   }
-
-  70% {
-    width: 150px;
-  }
-
-  100% {
-    opacity: 0;
-    width: 150px;
-  }
-}
-
-@keyframes floatLine {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-1.5px); }
-  100% { transform: translateY(0px); }
-}
 
   .top-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    margin-top: 6px;   /* 👈 added space above cards */
+    margin-top: 6px;
   }
 
   .main-card,
@@ -226,6 +200,14 @@ button:hover {
     min-height: 260px;
     display: flex;
     flex-direction: column;
+  }
+
+  .main-card:hover,
+  .criteria-card:hover,
+  .decision-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0,0,0,.10);
+    transition: all 0.25s ease;
   }
 
   .main-head,
@@ -351,59 +333,47 @@ button:hover {
   }
 
   .action-btn,
-.back-btn {
-  border: none;
-  border-radius: 999px;
-  padding: 7px 16px;
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,.10);
-}
+  .back-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,.10);
+  }
 
-.btn-blue { 
-  background: linear-gradient(90deg, #1c5ab3, #184f9c);
-  color: #fff;
-}
+  .btn-blue {
+    background: linear-gradient(90deg, #1c5ab3, #184f9c);
+    color: #fff;
+  }
 
-.btn-green { 
-  background: linear-gradient(90deg, #23922d, #1f7f28);
-  color: #fff;
-}
+  .btn-green {
+    background: linear-gradient(90deg, #23922d, #1f7f28);
+    color: #fff;
+  }
 
-.btn-navy { 
-  background: linear-gradient(90deg, #254782, #1b3767);
-  color: #fff;
-}
-
-.action-btn:hover,
-.back-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0,0,0,.14);
-  filter: brightness(1.03);
-}
-
-  .btn-blue { background: #184f9c; color: #fff; }
-  .btn-green { background: #1f7f28; color: #fff; }
-  .btn-navy { background: #1b3767; color: #fff; }
+  .btn-navy {
+    background: linear-gradient(90deg, #254782, #1b3767);
+    color: #fff;
+  }
 
   .action-btn:hover,
   .back-btn:hover {
     transform: translateY(-1px);
-    filter: brightness(1.02);
+    box-shadow: 0 4px 10px rgba(0,0,0,.14);
+    filter: brightness(1.03);
   }
 
   .decision-title {
     text-align: center;
-    font-size: 16px;
     font-weight: 800;
     color: #23466e;
-    margin-top: 10px;       /* was too big */
+    margin-top: 10px;
     margin-bottom: 6px;
-    font-size: 18px;        /* optional: slightly tighter */
-
+    font-size: 18px;
   }
 
   .bottom-row {
@@ -412,14 +382,13 @@ button:hover {
     gap: 12px;
     align-items: start;
     margin-top: 6px;
-    gap: 12px;
-
+    margin-bottom: 6px;
   }
 
   .criteria-card,
   .decision-card {
-    min-height: auto;
     min-height: 0;
+    height: auto;
   }
 
   .criteria-table td {
@@ -455,8 +424,12 @@ button:hover {
   }
 
   .decision-table tr:last-child td {
-  border-bottom: none;
-}
+    border-bottom: none;
+  }
+
+  .mobile-track-stacks {
+    display: none;
+  }
 
   .details-wrapper {
     margin-top: 20px;
@@ -543,96 +516,184 @@ button:hover {
 
   .detail-table th:nth-child(1),
   .detail-table td:nth-child(1) {
-    width: 60px;              /* 👈 smaller */
-    white-space: normal;      /* 👈 allow wrap */
-    word-break: break-word;
+    width: 90px;
+    white-space: nowrap;
     text-align: center;
-    font-size: 11px;          /* 👈 slightly smaller */
-  line-height: 1.2;
-}
+  }
 
-.detail-table td:nth-child(2) {
-  font-weight: 600;
-}
+  .footer {
+    margin-top: 6px;
+    padding: 8px 10px 10px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+  }
 
-.detail-table th:nth-child(3),
-.detail-table td:nth-child(3) {
-  width: 160px;   /* 👈 increase */
-}
+  .footer-box {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
 
-  @keyframes shine {
-    0% {
-       left: -50%;
+  .footer-name {
+    font-size: 14px;
+    color: #1f2937;
+  }
+
+  .footer-role {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 4px;
+  }
+
+  .footer-contact {
+    margin-top: 10px;
+  }
+
+  .footer a {
+    color: #1565c0;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  .divider {
+    margin: 0 8px;
+    color: #9ca3af;
+  }
+
+  @media (max-width: 768px) {
+    .top-row,
+    .decision-title,
+    .bottom-row {
+      display: none;
     }
-    100% {
-      left: 120%;
+
+    .mobile-track-stacks {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .mobile-track-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mobile-decision-pair {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .mobile-decision-pair .criteria-card,
+    .mobile-decision-pair .decision-card {
+      min-height: auto;
+      height: auto;
+    }
+
+    .mobile-track-stacks .main-card {
+      min-height: auto;
+    }
+
+    .mobile-track-stacks .mini-table th,
+    .mobile-track-stacks .mini-table td,
+    .mobile-track-stacks .criteria-table td,
+    .mobile-track-stacks .decision-table td {
+      font-size: 11px;
+      padding: 6px 5px;
+    }
+
+    .mobile-track-stacks .main-head,
+    .mobile-track-stacks .criteria-head,
+    .mobile-track-stacks .decision-head {
+      font-size: 12px;
+      padding: 8px 10px;
+    }
+
+    .mobile-track-stacks .outcome-row td {
+      font-size: 12px;
+      padding: 8px 5px;
+    }
+
+    .mobile-track-stacks .card-actions {
+      padding: 8px 8px 10px;
+    }
+
+    .mobile-track-stacks .action-btn {
+      font-size: 11px;
+      padding: 7px 12px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+      font-size: 10.5px;
+      padding: 6px 5px;
+      line-height: 1.2;
+    }
+
+    .detail-table th {
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .detail-table th:nth-child(1),
+    .detail-table td:nth-child(1) {
+      width: 60px;
+      font-size: 10px;
+      text-align: center;
+      white-space: normal;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      line-height: 1.1;
+    }
+
+    .detail-table th:nth-child(2),
+    .detail-table td:nth-child(2) {
+      width: 150px;
+    }
+
+    .detail-table th:nth-child(3),
+    .detail-table td:nth-child(3) {
+      width: 100px;
+    }
+
+    .detail-table th:nth-child(4),
+    .detail-table td:nth-child(4) {
+      width: 150px;
+    }
+
+    .detail-table th:nth-child(5),
+    .detail-table td:nth-child(5) {
+      width: 130px;
+    }
+
+    .detail-table th:nth-child(6),
+    .detail-table td:nth-child(6) {
+      width: 150px;
+    }
+
+    .detail-table td {
+      word-break: normal;
+      overflow-wrap: break-word;
+    }
+
+    .back-btn {
+      font-size: 10px;
+      padding: 6px 10px;
+    }
+
+    .detail-title {
+      font-size: 14px;
     }
   }
-  .footer {
-  margin-top: 6px;
-  padding-top: 8px;
-  padding-bottom: 10px;
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
-}
 
-.footer-box {
-  max-width: 600px;
-  margin: auto;
-  text-align: center;
-}
-
-.footer-name {
-  font-size: 14px;
-  color: #1f2937;
-}
-
-.footer-role {
-  font-size: 13px;
-  color: #6b7280;
-  margin-top: 4px;
-}
-
-.footer-contact {
-  margin-top: 10px;
-}
-
-.footer a {
-  color: #1565c0;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.footer a:hover {
-  text-decoration: underline;
-}
-
-.divider {
-  margin: 0 8px;
-  color: #9ca3af;
-}
-
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.page {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.main-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-  @media (max-width: 1360px) {
+  @media (max-width: 1360px) and (min-width: 769px) {
     .top-row,
     .bottom-row {
       grid-template-columns: 1fr;
@@ -644,135 +705,13 @@ body {
       white-space: normal;
     }
   }
-
-  @media (max-width: 768px) {
-
-.detail-table th:nth-child(1),
-.detail-table td:nth-child(1) {
-  width: 60px;              /* 👈 enough for 2 lines */
-  font-size: 10px;
-  text-align: center;
-
-  white-space: normal;      /* allow wrap */
-  word-break: keep-all;     /* ❗ prevents letter breaking */
-  overflow-wrap: normal;    /* ❗ prevents weird stacking */
-
-  line-height: 1.1;
-}
-
-}
-
-  @media (max-width: 768px) {
-
-/* Table text */
-.detail-table th,
-.detail-table td {
-  font-size: 10.5px;
-  padding: 6px 5px;
-  line-height: 1.2;
-}
-
-/* Slightly smaller headers */
-.detail-table th {
-  font-size: 10px;
-  font-weight: 700;
-}
-
-/* Day column extra compact */
-.detail-table th:nth-child(1),
-.detail-table td:nth-child(1) {
-  font-size: 9.5px;
-  width: 55px;
-}
-
-/* Reduce card padding */
-.detail-card {
-  padding: 8px;
-}
-
-/* Back button smaller */
-.back-btn {
-  font-size: 10px;
-  padding: 6px 10px;
-}
-
-/* Title slightly smaller */
-.detail-title {
-  font-size: 14px;
-}
-}
-
-
-@media (max-width: 768px) {
-
-/* General table text */
-.detail-table th,
-.detail-table td {
-  font-size: 10.5px;
-  padding: 6px 5px;
-  line-height: 1.2;
-}
-
-/* Day column (small) */
-.detail-table th:nth-child(1),
-.detail-table td:nth-child(1) {
-  width: 50px;
-  font-size: 9.5px;
-}
-
-/* 🔥 Topic column (give more space) */
-.detail-table th:nth-child(2),
-.detail-table td:nth-child(2) {
-  width: 150px;
-}
-
-/* 🔧 Focus column (allow slight squeeze) */
-.detail-table th:nth-child(3),
-.detail-table td:nth-child(3) {
-  width: 100px;
-}
-
-/* Practice column */
-.detail-table th:nth-child(4),
-.detail-table td:nth-child(4) {
-  width: 150px;
-}
-
-/* Outcome */
-.detail-table th:nth-child(5),
-.detail-table td:nth-child(5) {
-  width: 130px;
-}
-
-/* Business use-case */
-.detail-table th:nth-child(6),
-.detail-table td:nth-child(6) {
-  width: 150px;
-}
-
-/* Prevent ugly vertical breaking */
-.detail-table td {
-  word-break: normal;
-  overflow-wrap: break-word;
-}
-
-@media (max-width: 768px) {
-
-.detail-table td {
-  word-break: normal;
-  overflow-wrap: break-word;
-}
-
-}
-
-
-}
 </style>
 </head>
 
 <body>
   <div class="page">
     <div id="topSummary" class="top-anchor"></div>
+
     <div class="main-container">
       <div class="hero">
         <div class="top-title">AI/ML Training Plan Comparison</div>
@@ -900,6 +839,163 @@ body {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div class="mobile-track-stacks">
+
+        <div class="mobile-track-block">
+          <div class="main-card">
+            <div class="main-head blue-head">🧑‍💻 Option 1 – Developer Track (15 Days)</div>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th>Phase</th>
+                  <th>Days</th>
+                  <th>Focus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="phase">🔹 Foundation</td><td class="days">4</td><td class="focus">Strong base</td></tr>
+                <tr><td class="phase">📊 ML Core</td><td class="days">5</td><td class="focus">Regression + Classification</td></tr>
+                <tr><td class="phase">🧠 Deep Learning</td><td class="days">3</td><td class="focus">ANN + intuition</td></tr>
+                <tr><td class="phase">🤖 AI + Agentic</td><td class="days">3</td><td class="focus">Practical systems</td></tr>
+                <tr class="outcome-row outcome-blue"><td colspan="3">Build ML + AI apps</td></tr>
+              </tbody>
+            </table>
+            <div class="card-actions">
+              <button class="action-btn btn-blue" onclick="toggleDetails('developerDetails')">+ View 15-Day Plan</button>
+            </div>
+          </div>
+
+          <div class="mobile-decision-pair">
+            <div class="criteria-card">
+              <div class="criteria-head grey-head">Criteria</div>
+              <table class="criteria-table">
+                <tbody>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">👥</span><span>Ideal For</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🏎️</span><span>Pace</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🧮</span><span>Math Depth</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🛠️</span><span>Hands-on Level</span></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="decision-card">
+              <div class="decision-head blue-head">Dev Experienced</div>
+              <table class="decision-table">
+                <tbody>
+                  <tr><td>.NET / Java / Technical professionals</td></tr>
+                  <tr><td>Fast</td></tr>
+                  <tr><td>Medium</td></tr>
+                  <tr><td>High</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-track-block">
+          <div class="main-card">
+            <div class="main-head green-head">🧑‍🎓 Option 2 – Beginner Track (20 Days)</div>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th>Phase</th>
+                  <th>Days</th>
+                  <th>Focus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="phase">🔹 Foundation</td><td class="days">5</td><td class="focus">Strong base</td></tr>
+                <tr><td class="phase">📊 ML Core</td><td class="days">6</td><td class="focus">Regression + Classification</td></tr>
+                <tr><td class="phase">🧠 Deep Learning</td><td class="days">4</td><td class="focus">ANN + intuition</td></tr>
+                <tr><td class="phase">🤖 AI + Agentic</td><td class="days">5</td><td class="focus">Practical systems</td></tr>
+                <tr class="outcome-row outcome-green"><td colspan="3">Understand + apply ML</td></tr>
+              </tbody>
+            </table>
+            <div class="card-actions">
+              <button class="action-btn btn-green" onclick="toggleDetails('beginnerDetails')">+ View 20-Day Plan</button>
+            </div>
+          </div>
+
+          <div class="mobile-decision-pair">
+            <div class="criteria-card">
+              <div class="criteria-head grey-head">Criteria</div>
+              <table class="criteria-table">
+                <tbody>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">👥</span><span>Ideal For</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🏎️</span><span>Pace</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🧮</span><span>Math Depth</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🛠️</span><span>Hands-on Level</span></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="decision-card">
+              <div class="decision-head green-head">Beginner Friendly</div>
+              <table class="decision-table">
+                <tbody>
+                  <tr><td>Freshers / Mixed audience</td></tr>
+                  <tr><td>Moderate</td></tr>
+                  <tr><td>Higher</td></tr>
+                  <tr><td>High</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-track-block">
+          <div class="main-card">
+            <div class="main-head navy-head">🚀 Option 3 – Advanced ML Track (7 Days)</div>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th>Phase</th>
+                  <th>Days</th>
+                  <th>Focus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="phase">🔹 Foundation</td><td class="days">Not Covered</td><td class="focus">ML-focused track</td></tr>
+                <tr><td class="phase">📊 ML Core</td><td class="days">5</td><td class="focus">Regression + Classification</td></tr>
+                <tr><td class="phase">🧠 Deep Learning</td><td class="days">2</td><td class="focus">ANN + intuition</td></tr>
+                <tr><td class="phase">🤖 AI + Agentic</td><td class="days">Not Covered</td><td class="focus">ML-focused track</td></tr>
+                <tr class="outcome-row outcome-blue"><td colspan="3">Build production ML systems</td></tr>
+              </tbody>
+            </table>
+            <div class="card-actions">
+              <button class="action-btn btn-navy" onclick="toggleDetails('advancedDetails')">+ View 7-Day Plan</button>
+            </div>
+          </div>
+
+          <div class="mobile-decision-pair">
+            <div class="criteria-card">
+              <div class="criteria-head grey-head">Criteria</div>
+              <table class="criteria-table">
+                <tbody>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">👥</span><span>Ideal For</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🏎️</span><span>Pace</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🧮</span><span>Math Depth</span></div></td></tr>
+                  <tr><td><div class="criteria-label"><span class="criteria-icon">🛠️</span><span>Hands-on Level</span></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="decision-card">
+              <div class="decision-head navy-head">⭐ Advanced Professionals</div>
+              <table class="decision-table">
+                <tbody>
+                  <tr><td>Python Experienced</td></tr>
+                  <tr><td>Fast</td></tr>
+                  <tr><td>Higher</td></tr>
+                  <tr><td>High</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="details-wrapper">
@@ -1032,55 +1128,53 @@ body {
           </div>
         </section>
       </div>
-
     </div>
   </div>
 
-<script>
-  function toggleDetails(sectionId) {
-    const sections = document.querySelectorAll('.detail-section');
-    const target = document.getElementById(sectionId);
-    const alreadyOpen = target.classList.contains('active');
+  <script>
+    function toggleDetails(sectionId) {
+      const sections = document.querySelectorAll('.detail-section');
+      const target = document.getElementById(sectionId);
+      const alreadyOpen = target.classList.contains('active');
 
-    sections.forEach(section => section.classList.remove('active'));
+      sections.forEach(section => section.classList.remove('active'));
 
-    if (!alreadyOpen) {
-      target.classList.add('active');
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    } else {
+      if (!alreadyOpen) {
+        target.classList.add('active');
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+      } else {
+        document.getElementById('topSummary').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function closeDetails() {
+      document.querySelectorAll('.detail-section').forEach(section => {
+        section.classList.remove('active');
+      });
       document.getElementById('topSummary').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }
+  </script>
 
-  function closeDetails() {
-    document.querySelectorAll('.detail-section').forEach(section => {
-      section.classList.remove('active');
-    });
-    document.getElementById('topSummary').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-</script>
-<footer class="footer">
-  <div class="footer-box">
+  <footer class="footer">
+    <div class="footer-box">
+      <div class="footer-name">
+        Designed & Developed by <strong>Deepak Gupta</strong>
+      </div>
 
-    <div class="footer-name">
-      Designed & Developed by <strong>Deepak Gupta</strong>
+      <div class="footer-role">
+        AI/ML Corporate Training
+      </div>
+
+      <div class="footer-contact">
+        <a href="tel:+919663718486">📞 +91 96637 18486</a>
+        <span class="divider">|</span>
+        <a href="https://www.linkedin.com/in/deepakrnpg" target="_blank">
+          🔗 LinkedIn Profile
+        </a>
+      </div>
     </div>
-
-    <div class="footer-role">
-      AI/ML Corporate Training
-    </div>
-
-    <div class="footer-contact">
-      <a href="tel:+919663718486">📞 +91 96637 18486</a>
-      <span class="divider">|</span>
-      <a href="https://www.linkedin.com/in/deepakrnpg" target="_blank">
-        🔗 LinkedIn Profile
-      </a>
-    </div>
-
-  </div>
-</footer>
+  </footer>
 </body>
 </html>
