@@ -582,6 +582,16 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #f8fbf8;
+      border: 1px solid #e3ebe3;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      margin-bottom: 18px;
+    }
+
+    .mobile-track-block:last-child {
+      margin-bottom: 0;
     }
 
     .mobile-decision-pair {
@@ -589,6 +599,13 @@
       grid-template-columns: 110px 1fr;
       gap: 8px;
       align-items: start;
+    }
+
+    .mobile-track-block .main-card,
+    .mobile-track-block .criteria-card,
+    .mobile-track-block .decision-card {
+      box-shadow: none;
+      border: 1px solid #e6ece6;
     }
 
     .mobile-decision-pair .criteria-card,
@@ -843,6 +860,7 @@
 
       <div class="mobile-track-stacks">
 
+        <!-- OPTION 1 -->
         <div class="mobile-track-block">
           <div class="main-card">
             <div class="main-head blue-head">🧑‍💻 Option 1 – Developer Track (15 Days)</div>
@@ -894,6 +912,7 @@
           </div>
         </div>
 
+        <!-- OPTION 2 -->
         <div class="mobile-track-block">
           <div class="main-card">
             <div class="main-head green-head">🧑‍🎓 Option 2 – Beginner Track (20 Days)</div>
@@ -945,6 +964,7 @@
           </div>
         </div>
 
+        <!-- OPTION 3 -->
         <div class="mobile-track-block">
           <div class="main-card">
             <div class="main-head navy-head">🚀 Option 3 – Advanced ML Track (7 Days)</div>
